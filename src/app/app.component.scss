@@ -1,0 +1,27 @@
+.container-button {
+  // flex: 1;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  //background-color: blue;
+  height: 56px;
+  justify-content: space-evenly;
+
+  //z-index: 9999;
+
+  .item {
+    //flex-grow: 1;
+    height: 100px;
+
+
+  }
+
+  .item + .item {
+    margin-left: 5%;
+  }
+
+  button{ margin-top:20%}
+
+}
+

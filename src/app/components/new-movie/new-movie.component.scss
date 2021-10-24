@@ -1,0 +1,17 @@
+mat-form-field{
+    margin: 5px;
+}
+
+.row-content {
+    display: flex;
+    justify-content: center;
+}
+
+.row-content-center {
+    display: flex;
+    justify-content: center;
+}
+
+.row-content mat-form-field{
+    flex: 1;
+}

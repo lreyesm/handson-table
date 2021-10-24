@@ -1,0 +1,220 @@
+<mat-dialog-content class="animate__animated animate__fadeIn">
+    <div [formGroup]="movieFormData" class="animate__animated animate__fadeIn">
+        <div>
+            <div class="container">
+                <div class="row bd-highlight" class="row-content-center">
+                    <div>
+                        <div style="margin-top: 5px; margin-bottom: 30px; margin-left: 5px">
+                            <div style="display: flex; justify-content: space-between">
+                                <p style="font-size: large">Movie</p>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="row-content">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>title</mat-label>
+                                    <input
+                                        formControlName="title"
+                                        matInput
+                                        type="text"
+                                        placeholder="title..."
+                                        require
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <div class="row-content">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>originalTitle</mat-label>
+                                    <input
+                                        formControlName="originalTitle"
+                                        matInput
+                                        type="text"
+                                        placeholder="originalTitle..."
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <div class="row-content">
+                                <mat-form-field style="width: 120px" appearance="fill">
+                                    <mat-label>tagline</mat-label>
+                                    <input
+                                        formControlName="tagline"
+                                        matInput
+                                        type="text"
+                                        placeholder="tagline..."
+                                        require
+                                    />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill" style="max-width: 120px">
+                                    <mat-label>originalLang</mat-label>
+                                    <input
+                                        formControlName="originalLang"
+                                        matInput
+                                        type="text"
+                                        placeholder="originalLang..."
+                                        require
+                                    />
+                                </mat-form-field>
+                            </div>
+
+                            <div class="row-content">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>overview</mat-label>
+                                    <textarea
+                                        matInput
+                                        formControlName="overview"
+                                        placeholder="overview..."
+                                        cdkTextareaAutosize
+                                        #autosize="cdkTextareaAutosize"
+                                        cdkAutosizeMinRows="2"
+                                    >
+                                    </textarea>
+                                </mat-form-field>
+                            </div>
+                            <div class="row-content">
+                                <mat-form-field style="width: 120px" appearance="fill">
+                                    <mat-label>budget</mat-label>
+                                    <input
+                                        formControlName="budget"
+                                        matInput
+                                        type="number"
+                                        placeholder="budget..."
+                                        require
+                                    />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>popularity</mat-label>
+                                    <input
+                                        formControlName="popularity"
+                                        matInput
+                                        type="text"
+                                        placeholder="popularity..."
+                                        require
+                                    />
+                                </mat-form-field>
+
+                                <mat-form-field style="width: 150px" appearance="fill">
+                                    <mat-label>Release date</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="picker_releaseDate"
+                                        formControlName="releaseDate"
+                                        placeholder="Release date..."
+                                    />
+                                    <mat-datepicker-toggle
+                                        matSuffix
+                                        [for]="picker_releaseDate"
+                                    ></mat-datepicker-toggle>
+                                    <mat-datepicker #picker_releaseDate></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <div class="row-content">
+                                <mat-form-field style="width: 120px" appearance="fill">
+                                    <mat-label>revenue</mat-label>
+                                    <input
+                                        formControlName="revenue"
+                                        matInput
+                                        type="text"
+                                        placeholder="revenue..."
+                                        require
+                                    />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>runtime</mat-label>
+                                    <input
+                                        formControlName="runtime"
+                                        matInput
+                                        type="text"
+                                        placeholder="runtime..."
+                                        require
+                                    />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>status</mat-label>
+                                    <input
+                                        formControlName="status"
+                                        matInput
+                                        type="text"
+                                        placeholder="status..."
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <div class="row-content">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>voteAverage</mat-label>
+                                    <input
+                                        formControlName="voteAverage"
+                                        matInput
+                                        type="text"
+                                        placeholder="voteAverage..."
+                                    />
+                                </mat-form-field>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>voteCount</mat-label>
+                                    <input
+                                        formControlName="voteCount"
+                                        matInput
+                                        type="text"
+                                        placeholder="voteCount..."
+                                    />
+                                </mat-form-field>
+                            </div>
+
+                            <div *ngIf="movieId" class="row-content">
+                                <mat-form-field style="width: 150px" appearance="fill">
+                                    <mat-label>Created at</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="picker_createdAt"
+                                        formControlName="createdAt"
+                                        placeholder="Created at..."
+                                        readonly
+                                    />
+                                    <mat-datepicker #picker_createdAt></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field style="width: 150px" appearance="fill">
+                                    <mat-label>Updated at</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="picker_updatedAt"
+                                        formControlName="updatedAt"
+                                        placeholder="Updated at..."
+                                        readonly
+                                    />
+                                    <mat-datepicker #picker_updatedAt></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field style="width: 150px" appearance="fill">
+                                    <mat-label>Deleted at</mat-label>
+                                    <input
+                                        matInput
+                                        [matDatepicker]="picker_deletedAt"
+                                        formControlName="deletedAt"
+                                        placeholder="Deleted at..."
+                                        readonly
+                                    />
+                                    <mat-datepicker #picker_deletedAt></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ngx-spinner
+        [bdColor]="movie ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 1)'"
+        size="large"
+        color="#368DCE"
+        type="ball-scale"
+        [fullScreen]="false"
+        name="movieSpinner"
+    >
+    </ngx-spinner>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button [mat-dialog-close]="movie">Cancel</button>
+    <button mat-button cdkFocusInitial matTooltip="Save changes" (click)="saveChanges()">
+        <mat-icon color="primary">check</mat-icon> {{ movieId ? 'Update' : 'Add' }}
+    </button>
+</mat-dialog-actions>

@@ -1,0 +1,26 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+@import '~handsontable/dist/handsontable.full.css';
+
+////////////////////// snackbar //////////////////////////////////////
+.my-snack-bar-info {
+    background-color: #368dce !important;
+    color: #ffffff !important;
+}
+.my-snack-bar-warning {
+    background-color: #ffc107 !important;
+    color: black !important;
+}
+.my-snack-bar-error {
+    background-color: #f44336 !important;
+    color: #ffffff !important;
+}
+////////////////////// snackbar //////////////////////////////////////
