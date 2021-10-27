@@ -11,6 +11,10 @@ export class MovieService {
 
     constructor(private http: HttpClient) {}
 
+    /**
+     * @param  {number=1} page: Number of the pagination to display
+     * @returns Promise: Returns a promise that resolves with an array of movies
+     */
     async getMovies(page: number = 1): Promise<Movie[]> {
         return new Promise<Movie[]>((resolve, reject) => {
             try {
@@ -41,6 +45,10 @@ export class MovieService {
         });
     }
 
+    /**
+     * @param  {Movie} movie: Movie object to add to the database
+     * @returns Promise: Promise resolved with the movie uploaded
+     */
     async addMovie(movie: Movie): Promise<Movie> {
         return new Promise<Movie>((resolve, reject) => {
             const postParams = movie;
@@ -112,6 +120,10 @@ export class MovieService {
         });
     }
 
+    /**
+     * @param  {string} movieId
+     * @returns Promise
+     */
     async deleteMovie(movieId: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             console.log('************* deleteMovie *************');
