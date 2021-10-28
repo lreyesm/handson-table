@@ -5,18 +5,23 @@ import {
     MatSnackBarHorizontalPosition,
     MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { NewMovieComponent } from '../components/new-movie/new-movie.component';
 import { Movie } from '../interfaces/movie';
+import { QuestionDialogComponent } from '../components/question-dialog/question-dialog.component';
+import { MovieComponent } from '../components/movie/movie.component';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UtilsService {
-    movieDialogRef!: MatDialogRef<NewMovieComponent, any>;
+    movieDialogRef!: MatDialogRef<MovieComponent, any>;
     horizontalPosition: MatSnackBarHorizontalPosition = 'end';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
 
-    constructor(private _snackBar: MatSnackBar, public dialog: MatDialog) {}
+    constructor(
+        private _snackBar: MatSnackBar,
+        public dialog: MatDialog,
+        public questionDialog: MatDialog
+    ) {}
 
     openSnackBar(
         text: string,
@@ -31,9 +36,26 @@ export class UtilsService {
         });
     }
 
+    openQuestionDialog(title: string, text: string): Promise<boolean> {
+        return new Promise<boolean>(async (resolve, reject) => {
+            const dialogRef = this.questionDialog.open(QuestionDialogComponent, {
+                data: {
+                    title: title,
+                    text: text,
+                },
+            });
+            dialogRef.afterClosed().subscribe((result) => {
+                if (result) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            });
+        });
+    }
     openMovieDialog(movieId?: string): Promise<Movie> {
         return new Promise<Movie>(async (resolve, reject) => {
-            this.movieDialogRef = this.dialog.open(NewMovieComponent, {
+            this.movieDialogRef = this.dialog.open(MovieComponent, {
                 data: {
                     movieId: movieId,
                 },

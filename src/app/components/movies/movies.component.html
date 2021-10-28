@@ -1,0 +1,118 @@
+<div class="container">
+    <div class="container-table" (contextmenu)="onRightClick($event)">
+        <hot-table
+            matTooltip="Double click to open row"
+            id="handson"
+            [data]="dataset"
+            [manualColumnMove]="manualColumnMove"
+            [colHeaders]="true"
+            [rowHeaders]="true"
+            [persistentState]="true"
+            [manualColumnResize]="true"
+            [hotId]="id"
+            [height]="customHeight"
+            licenseKey="non-commercial-and-evaluation"
+            (dblclick)="doubleClickedRow($event)"
+            #handson
+        >
+            <div *ngFor="let column of columnNames; let rowIndex">
+                <hot-column
+                    *ngIf="readonlyColumns.includes(column)"
+                    data="{{ column }}"
+                    title="{{ column }}"
+                    [readOnly]="true"
+                >
+                </hot-column>
+                <hot-column
+                    *ngIf="!readonlyColumns.includes(column)"
+                    data="{{ column }}"
+                    title="{{ column }}"
+                >
+                </hot-column>
+            </div>
+        </hot-table>
+    </div>
+
+    <div class="footer">
+        <div style="display: flex; width: 50%">
+            <div style="margin: auto">
+                <button
+                    style="margin: auto"
+                    mat-mini-fab
+                    color="primary"
+                    (click)="addMovie()"
+                    matTooltip="Create a new movie"
+                >
+                    <mat-icon>add</mat-icon>
+                </button>
+                <button
+                    *ngIf="selectedData"
+                    style="margin: auto; margin-left: 20px"
+                    mat-mini-fab
+                    color="primary"
+                    (click)="openSelectedMovie()"
+                    matTooltip="Create a new movie"
+                >
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                    *ngIf="selectedData"
+                    style="
+                        margin: auto;
+                        margin-left: 20px;
+                        color: white;
+                        background-color: #f44336 !important;
+                    "
+                    mat-mini-fab
+                    (click)="deleteMovies()"
+                    matTooltip="Delete selected movies"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+        </div>
+        <div div style="display: flex; width: 50%">
+            <div style="margin-left: auto">
+                <mat-paginator
+                    [length]="4805"
+                    [pageSize]="pageSize"
+                    [pageSizeOptions]="pageSizeOptions"
+                    aria-label="Select page"
+                    showFirstLastButtons
+                    (page)="pageEvent($event)"
+                >
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div
+    style="visibility: hidden; position: fixed"
+    [style.left]="menuTopLeftPosition.x"
+    [style.top]="menuTopLeftPosition.y"
+    [matMenuTriggerFor]="rightMenu"
+></div>
+
+<mat-menu #rightMenu="matMenu">
+    <ng-template matMenuContent let-item="item">
+        <button
+            *ngFor="let option of menuOptions"
+            mat-menu-item
+            matTooltip="Open row to edit"
+            (click)="onMenuOptionSelected(option)"
+        >
+            {{ option }}
+        </button>
+    </ng-template>
+</mat-menu>
+
+<ngx-spinner
+    [bdColor]="'rgba(0, 0, 0, 0.2)'"
+    size="large"
+    color="#368DCE"
+    type="ball-scale"
+    [fullScreen]="false"
+    name="moviesSpinner"
+>
+</ngx-spinner>

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import * as moment from 'moment';
@@ -9,11 +9,11 @@ import { MovieService } from 'src/app/services/movie.service';
 import { UtilsService } from 'src/app/services/utils.service';
 
 @Component({
-    selector: 'app-new-movie',
-    templateUrl: './new-movie.component.html',
-    styleUrls: ['./new-movie.component.scss'],
+    selector: 'app-movie',
+    templateUrl: './movie.component.html',
+    styleUrls: ['./movie.component.scss'],
 })
-export class NewMovieComponent {
+export class MovieComponent implements OnInit {
     loading: boolean = false;
     movieId: string = '';
     movie?: Movie;

@@ -24,3 +24,12 @@ body {
     color: #ffffff !important;
 }
 ////////////////////// snackbar //////////////////////////////////////
+
+@media (max-width: 1024px) {
+    .mat-paginator-page-size {
+        display: none !important;
+    }
+    .mat-paginator-range-label {
+        display: none !important;
+    }
+}

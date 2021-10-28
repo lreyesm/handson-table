@@ -12,7 +12,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { HotTableModule } from '@handsontable/angular';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { NewMovieComponent } from './components/new-movie/new-movie.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { MatInputModule } from '@angular/material/input';
@@ -22,8 +21,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { QuestionDialogComponent } from './components/question-dialog/question-dialog.component';
+import { MovieComponent } from './components/movie/movie.component';
+import { MoviesComponent } from './components/movies/movies.component';
 @NgModule({
-    declarations: [AppComponent, NewMovieComponent],
+    declarations: [AppComponent, QuestionDialogComponent, MovieComponent, MoviesComponent],
     imports: [
         BrowserModule,
         AppRoutingModule,
@@ -45,6 +48,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
         MatDatepickerModule,
         MatNativeDateModule,
         MatMomentDateModule,
+        MatTooltipModule,
         MatDialogModule,
     ],
     providers: [],
