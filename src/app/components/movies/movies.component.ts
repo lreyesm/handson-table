@@ -46,7 +46,7 @@ export class MoviesComponent implements OnInit {
     ];
     dataset: any[] = [];
     copyDataset: any;
-    manualColumnMove: any = true;
+    columnMove: any = true;
     menuTopLeftPosition = { x: '0', y: '0' };
     menuOptions = ['Open', 'Delete'];
     dropIndex: any;
@@ -184,7 +184,11 @@ export class MoviesComponent implements OnInit {
             const tempArray = saveManualColumnMove.split(',');
             try {
                 const intArray = tempArray.map((e) => parseInt(e));
-                this.manualColumnMove = intArray;
+                console.log('************* intArray *************');
+                console.log(intArray);
+                this.columnMove = intArray;
+                console.log('************* this.columnMove *************');
+                console.log(this.columnMove);
             } catch (err) {
                 this._utilsService.openSnackBar('Failed loading column order', 'error');
             }
