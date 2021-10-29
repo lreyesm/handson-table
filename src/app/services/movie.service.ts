@@ -7,8 +7,8 @@ import { Movie } from '../interfaces/movie';
 })
 export class MovieService {
     // url: string = `http://test-movies-api.vercel.app`;
-    // url: string = `http://45.93.100.189:3000`;
-    url: string = `http://localhost:3000`;
+    url: string = `http://45.93.100.189:3000`;
+    // url: string = `http://localhost:3000`;
 
     constructor(private http: HttpClient) {}
 
@@ -73,6 +73,10 @@ export class MovieService {
         });
     }
 
+    /**
+     * @param  {string} movieId:: The movie ID to get from the server
+     * @returns Promise: Promise resolved with the movie obtained
+     */
     async getMovie(movieId: string): Promise<Movie> {
         return new Promise<Movie>((resolve, reject) => {
             console.log('************* getMovie *************');
@@ -94,6 +98,11 @@ export class MovieService {
         });
     }
 
+    /**
+     * @param  {Movie} movie : The movie data to update
+     * @param  {string} movieId : The movie ID to update from the server
+     * @returns Promise: Promise resolved with a boolean representing the updating correctness
+     */
     async updateMovie(movie: Movie, movieId: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             const postParams = movie;
@@ -102,8 +111,6 @@ export class MovieService {
                 .put(`${this.url}/api/movies/${movieId}`, postParams)
                 .subscribe(
                     (data) => {
-                        // console.log('************* data *************');
-                        // console.log(data);
                         try {
                             if (this.isDeepEqual(movie, data)) {
                                 resolve(true);
@@ -122,8 +129,8 @@ export class MovieService {
     }
 
     /**
-     * @param  {string} movieId
-     * @returns Promise
+     * @param  {string} movieId:  The movie ID to delete from the server
+     * @returns Promise: Promise resolved with a boolean representing the updating correctness
      */
     async deleteMovie(movieId: string): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
@@ -131,8 +138,6 @@ export class MovieService {
             const subscription = this.http.delete(`${this.url}/api/movies/${movieId}`).subscribe(
                 (data: any) => {
                     try {
-                        console.log('************* data *************');
-                        console.log(data);
                         if (data.message === 'Movie deleted!') {
                             resolve(true);
                         } else {
@@ -149,7 +154,13 @@ export class MovieService {
         });
     }
 
-    isDeepEqual(value1: any, value2: any, dismissFields?: string[]) {
+    /**
+     * @param  {any} value1 : The first Object to compare
+     * @param  {any} value2 : The second Object to compare
+     * @param  {string[]} dismissFields?: Fields to dismiss on comparing
+     * @returns boolean : true if the first object is equal to the second object
+     */
+    isDeepEqual(value1: any, value2: any, dismissFields?: string[]): boolean {
         const keys1 = Object.keys(value1);
         const keys2 = Object.keys(value2);
         if (dismissFields) {
@@ -157,9 +168,6 @@ export class MovieService {
         } else {
             dismissFields = ['createdAt', 'updatedAt', 'deletedAt'];
         }
-        // if (keys1.length !== keys2.length) {
-        //     return false;
-        // }
         for (let key of keys1) {
             if (value1[key] !== value2[key]) {
                 if (dismissFields.includes(key)) {

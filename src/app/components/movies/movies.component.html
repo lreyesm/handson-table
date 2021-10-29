@@ -17,10 +17,19 @@
         >
             <div *ngFor="let column of columnNames; let rowIndex">
                 <hot-column
-                    *ngIf="readonlyColumns.includes(column)"
+                    *ngIf="column === 'id'"
                     data="{{ column }}"
                     title="{{ column }}"
                     [readOnly]="true"
+                >
+                </hot-column>
+                <hot-column
+                    *ngIf="readonlyColumns.includes(column) && column !== 'id'"
+                    data="{{ column }}"
+                    title="{{ column }}"
+                    type="date"
+                    dateFormat="MM/DD/YYYY"
+                    [correctFormat]="true"
                 >
                 </hot-column>
                 <hot-column

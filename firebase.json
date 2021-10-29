@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/handson-table",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

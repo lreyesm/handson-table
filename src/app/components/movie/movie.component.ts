@@ -22,11 +22,14 @@ export class MovieComponent implements OnInit {
 
     movieSubscription$?: Subscription;
 
-    companiesIds: string[] = [];
-
-    percentage: number = 0;
-    uploading = false;
-
+    /**
+     * @brief Form controls are loaded on the constructor
+     *  The movie ID injected is set on the constructor
+     * @param  {any} data : Data injected to the constructor
+     * @param  {UtilsService} _utilsService : Utility service
+     * @param  {MovieService} _movieService : Service for the movie requests
+     * @param  {NgxSpinnerService} spinner : Service for the loading animation spinner
+     */
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: any,
         private _utilsService: UtilsService,
@@ -39,6 +42,11 @@ export class MovieComponent implements OnInit {
         }
     }
 
+    /**
+     * @brief Requests the data of the movie and fills the form
+     *
+     * @returns Promise: Returns nothing
+     */
     async ngOnInit(): Promise<void> {
         this.showLoading(true);
         if (this.movieId) {
@@ -65,7 +73,12 @@ export class MovieComponent implements OnInit {
         this.showLoading(false);
     }
 
-    getMovieFormControls() {
+    /**
+     * @brief Returns the form group controls of the form
+     *
+     * @returns FormGroup: The form group of the form
+     */
+    getMovieFormControls(): FormGroup {
         return new FormGroup({
             id: new FormControl(),
             budget: new FormControl(),
@@ -87,7 +100,12 @@ export class MovieComponent implements OnInit {
         });
     }
 
-    saveFormData() {
+    /**
+     * @brief Save the form data of the movie and set it to a movie property
+     *
+     * @returns void
+     */
+    saveFormData(): void {
         const keys = Object.keys(this.movieFormData.controls);
         let movie: any = {};
         for (let key of keys) {
@@ -102,6 +120,11 @@ export class MovieComponent implements OnInit {
         this.movie = movie;
     }
 
+    /**
+     * @brief Saves and updates the movie on the server
+     *
+     * @returns Promise
+     */
     async saveChanges(): Promise<void> {
         this.showLoading(true);
         this.saveFormData();
@@ -137,7 +160,13 @@ export class MovieComponent implements OnInit {
         this.showLoading(false);
     }
 
-    showLoading(state: boolean) {
+    /**
+     * @brief Shows or hides a loading spinner
+     *
+     * @param  {boolean} state : Current state to set
+     * @returns void
+     */
+    showLoading(state: boolean): void {
         this.loading = state;
         if (state) {
             this.spinner.show('movieSpinner', {

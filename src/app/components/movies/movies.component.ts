@@ -13,22 +13,18 @@ import { UtilsService } from '../../services/utils.service';
     selector: 'app-movies',
     templateUrl: './movies.component.html',
     styleUrls: ['./movies.component.scss'],
-    // providers: [
-    //     { provide: MatPaginatorIntl, useValue: CustomPaginator() }, // Here
-    // ],
+    providers: [
+        { provide: MatPaginatorIntl, useValue: CustomPaginator() }, // Here
+    ],
 })
 export class MoviesComponent implements OnInit {
     @ViewChild('handson') hot?: Handsontable;
     @ViewChild(MatMenuTrigger, { static: true }) matMenuTrigger?: MatMenuTrigger;
-
     length = 0; //movie count in current table
     pageSize = 100; //limit of query
-    // pageSize = 500; //limit of query
     lastPageIndex = 0;
     pageSizeOptions: number[] = [100];
-
     readonlyColumns = ['id', 'releaseDate', 'createdAt', 'updatedAt', 'deletedAt'];
-
     columnNames = [
         'id',
         'budget',
@@ -49,48 +45,43 @@ export class MoviesComponent implements OnInit {
         'deletedAt',
     ];
     dataset: any[] = [];
-
     copyDataset: any;
     manualColumnMove: any = true;
-
     menuTopLeftPosition = { x: '0', y: '0' };
-
     menuOptions = ['Open', 'Delete'];
-
     dropIndex: any;
     table?: Handsontable;
-
     id: string = 'localhost';
-
     action: string = 'recargar';
-
     selectedData: any;
-
     loading = true;
-    // contextMenuInfo : string [] = ['row_above', 'row_below', 'remove_row'];
-    //contextMenuInfo: any = true
-
     innerHeight: any = 1080;
     customHeight: any = '1080px';
 
+    /**
+     * @brief The column order of the table is loaded on the constructor function
+     *
+     * @param  {MovieService} movieService : Service for the movies request
+     * @param  {UtilsService} _utilsService : An utility service
+     * @param  {NgxSpinnerService} spinner : The spinner service for loading animation
+     */
     constructor(
         private movieService: MovieService,
-        //private hotRegisterer: HotTableRegisterer,
-        private _snackBar: MatSnackBar,
         private _utilsService: UtilsService,
         private spinner: NgxSpinnerService
     ) {
         this.loadSavedColumnOrder();
     }
 
+    /**
+     * @brief Loads the first page of the movies
+     *
+     * @returns Promise
+     */
     async ngOnInit(): Promise<void> {
-        //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-        //Add 'implements OnInit' to the class.
-
         this.showLoading(true);
         this.innerHeight = window.innerHeight;
         this.customHeight = `${innerHeight - 56}px`;
-
         this.showLoading(true);
         try {
             this.dataset = await this.movieService.getMovies(1);
@@ -100,51 +91,13 @@ export class MoviesComponent implements OnInit {
             this._utilsService.openSnackBar('Failed loading movies', 'error');
         }
         this.showLoading(false);
-
         this.addHooks();
-        // (<any>window).MyPropertyName = this.hot;
-        // (<any>window).MyPropertyFunction = this.openMovie;
-        // (<any>window).MyPropertyService = this._utilsService;
-        // this.contextMenuInfo = {
-        //   callback(key: any, selection: any, clickEvent: any) {
-        //     // Common callback for all options
-        //   },
-        //   items: {
-        //     update_movie: {
-        //       name(): void {
-        //         return '<h4>Update</h4>' // Name can contain HTML
-        //       },
-
-        //         callback(): void {
-        //             const selected = (<any>(
-        //               window
-        //             )).MyPropertyName.__hotInstance.getSelectedLast()
-        //             ;(<any>window).MyPropertyFunction(selected[0])
-
-        //       },
-        //     },
-        //     sp1: '---------',
-
-        //     delete_movie: {
-        //       // Own custom option
-        //       name(): void {
-        //         return '<b>Delete</b>' // Name can contain HTML
-        //       },
-
-        //         callback(): void {
-        //             const selected = (<any>(
-        //               window
-        //             )).MyPropertyName.__hotInstance.getSelectedLast()
-        //             ;(<any>window).MyPropertyFunction(selected[0])
-
-        //       },
-
-        //     },
-
-        //   },
-        // }
     }
 
+    /**
+     * @brief   Changes the table height when on windows resize event
+     * @param  {any} event: Resize event, not using the variable
+     */
     @HostListener('window:resize', ['$event'])
     onResize(event: any) {
         this.innerHeight = window.innerHeight;
@@ -159,7 +112,12 @@ export class MoviesComponent implements OnInit {
         }
     }
 
-    addHooks() {
+    /**
+     * @brief Add hooks to handson table, After selection hook
+     * After selection hook and after a change hook
+     * @returns void
+     */
+    addHooks(): void {
         (this.hot as any).__hotInstance.addHook(
             'afterSelection',
             (
@@ -193,7 +151,18 @@ export class MoviesComponent implements OnInit {
                             let movie: Movie = this.dataset[row];
                             if (movie) {
                                 movie[`${column}` as keyof Movie] = actualValue;
-                                await this.movieService.updateMovie(movie, movie.id!.toString());
+                                const res = await this.movieService.updateMovie(
+                                    movie,
+                                    movie.id!.toString()
+                                );
+                                if (res) {
+                                    this._utilsService.openSnackBar('Movie updated successfully');
+                                } else {
+                                    this._utilsService.openSnackBar(
+                                        'Failed updating movie',
+                                        'error'
+                                    );
+                                }
                             }
                         }
                     }
@@ -201,6 +170,12 @@ export class MoviesComponent implements OnInit {
             }
         });
     }
+
+    /**
+     * @brief Loads the order of the columns
+     *
+     * @returns void
+     */
     loadSavedColumnOrder(): void {
         let saveManualColumnMove = localStorage.getItem('localhost_manualColumnMove');
         if (saveManualColumnMove) {
@@ -216,6 +191,11 @@ export class MoviesComponent implements OnInit {
         }
     }
 
+    /**
+     * @brief Opens a form to add a new movie
+     *
+     * @returns Promise : Returns nothing
+     */
     async addMovie(): Promise<void> {
         const openedMovie = await this._utilsService.openMovieDialog();
         if (openedMovie) {
@@ -227,6 +207,12 @@ export class MoviesComponent implements OnInit {
         }
     }
 
+    /**
+     * @brief Opens form to edit a movie
+     *
+     * @param  {number} row : Row of the movie in the table
+     * @returns Promise : Returns nothing
+     */
     async openMovie(row: number): Promise<void> {
         console.log('************* openMovie *************');
         try {
@@ -247,6 +233,14 @@ export class MoviesComponent implements OnInit {
             this._utilsService.openSnackBar('Failed loading movie', 'error');
         }
     }
+
+    /**
+     * @brief Checks the equality of two objects
+     *
+     * @param  {any} value1 : The first object to compare
+     * @param  {any} value2 : The second object to compare
+     * @returns boolean : true if the first object is equal to the second object
+     */
     isDeepEqual(value1: any, value2: any): boolean {
         const keys1 = Object.keys(value1);
         const keys2 = Object.keys(value2);
@@ -261,6 +255,12 @@ export class MoviesComponent implements OnInit {
         return true;
     }
 
+    /**
+     * @brief Shows or hides a loading spinner
+     *
+     * @param  {boolean} state : Current state to set
+     * @returns void
+     */
     showLoading(state: boolean): void {
         this.loading = state;
         if (state) {
@@ -272,6 +272,12 @@ export class MoviesComponent implements OnInit {
         }
     }
 
+    /**
+     * @brief This function receives the option selected on the menu
+     *
+     * @param  {string} option : The current option selected
+     * @returns Promise : Returns nothing
+     */
     async onMenuOptionSelected(option: string): Promise<void> {
         if (option === 'Open') {
             await this.openSelectedMovie();
@@ -280,13 +286,24 @@ export class MoviesComponent implements OnInit {
         }
     }
 
-    async openSelectedMovie() {
+    /**
+     * @brief This function opens the last selected movie
+     * It is trigger on the edit button click
+     * @returns Promise : Returns nothing
+     */
+    async openSelectedMovie(): Promise<void> {
         if (this.selectedData) {
             await this.openMovie(this.selectedData.row);
             this.selectedData = undefined;
         }
     }
-    async deleteMovies() {
+
+    /**
+     * @brief This function deletes selected movies
+     *
+     * @returns Promise : Returns nothing
+     */
+    async deleteMovies(): Promise<void> {
         if (
             await this._utilsService.openQuestionDialog(
                 'Confirmation',
@@ -334,6 +351,12 @@ export class MoviesComponent implements OnInit {
         this.selectedData = undefined;
     }
 
+    /**
+     * @brief This function opens the menu on right click
+     *
+     * @param  {MouseEvent} event: Right click mouse event
+     * @returns void
+     */
     onRightClick(event: MouseEvent): void {
         // preventDefault avoids to show the visualization of the right-click menu of the browser
         event.preventDefault();
@@ -351,6 +374,11 @@ export class MoviesComponent implements OnInit {
         }
     }
 
+    /**
+     * @brief This function receives the page event of the table
+     * Goes to the previous or the next page of the movies
+     * @param  {any} event: The page event of the table
+     */
     async pageEvent(event: any) {
         console.log(`length ${event.length}`);
         console.log(`pageSize ${event.pageSize}`);
