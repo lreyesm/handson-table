@@ -6,8 +6,8 @@ import { Movie } from '../interfaces/movie';
     providedIn: 'root',
 })
 export class MovieService {
-    // url: string = `http://test-movies-api.vercel.app`;
-    url: string = `http://45.93.100.189:3000`;
+    url: string = `http://test-movies-api.vercel.app`;
+    // url: string = `http://45.93.100.189:3000`;
     // url: string = `http://localhost:3000`;
 
     constructor(private http: HttpClient) {}
