@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="container-table" (contextmenu)="onRightClick($event)">
+    <div *ngIf="!loading" class="container-table" (contextmenu)="onRightClick($event)">
         <hot-table
             matTooltip="Double click to open row"
             id="handson"
@@ -11,6 +11,8 @@
             [manualColumnResize]="true"
             [hotId]="id"
             [height]="customHeight"
+            [dropdownMenu]="true"
+            [filters]="true"
             licenseKey="non-commercial-and-evaluation"
             (dblclick)="doubleClickedRow($event)"
             #handson
