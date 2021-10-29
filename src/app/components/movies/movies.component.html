@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngIf="!loading" class="container-table" (contextmenu)="onRightClick($event)">
+    <div *ngIf="!firstLoad" class="container-table" (contextmenu)="onRightClick($event)">
         <hot-table
             matTooltip="Double click to open row"
             id="handson"

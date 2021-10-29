@@ -57,7 +57,7 @@ export class MoviesComponent implements OnInit {
     loading = true;
     innerHeight: any = 1080;
     customHeight: any = '1080px';
-
+    firstLoad = true;
     /**
      * @brief The column order of the table is loaded on the constructor function
      *
@@ -90,8 +90,16 @@ export class MoviesComponent implements OnInit {
             console.error(error);
             this._utilsService.openSnackBar('Failed loading movies', 'error');
         }
+        this.firstLoad = false;
         this.showLoading(false);
-        this.addHooks();
+        setTimeout(() => {
+            try {
+                this.addHooks();
+            } catch (err) {
+                console.log('************* err *************');
+                console.log(err);
+            } //waits for tha table to load
+        }, 500);
     }
 
     /**
@@ -118,6 +126,7 @@ export class MoviesComponent implements OnInit {
      * @returns void
      */
     addHooks(): void {
+        this.selectedData = undefined;
         (this.hot as any).__hotInstance.addHook(
             'afterSelection',
             (
@@ -173,7 +182,7 @@ export class MoviesComponent implements OnInit {
 
     /**
      * @brief Loads the order of the columns
-     *
+     * Access the localStorage and get the column move array
      * @returns void
      */
     loadSavedColumnOrder(): void {
@@ -384,9 +393,7 @@ export class MoviesComponent implements OnInit {
      * @param  {any} event: The page event of the table
      */
     async pageEvent(event: any) {
-        console.log(`length ${event.length}`);
-        console.log(`pageSize ${event.pageSize}`);
-        console.log(`pageIndex ${event.pageIndex}`);
+        this.selectedData = undefined;
         if (this.lastPageIndex != event.pageIndex) {
             this.showLoading(true);
             try {

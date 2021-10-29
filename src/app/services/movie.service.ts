@@ -6,9 +6,9 @@ import { Movie } from '../interfaces/movie';
     providedIn: 'root',
 })
 export class MovieService {
-    url: string = `http://test-movies-api.vercel.app`;
-    // url: string = `http://45.93.100.189:3000`;
-    // url: string = `http://localhost:3000`;
+    // url: string = `https://test-movies-api.vercel.app`;//Official Invisible API endpoint
+    url: string = `https://us-central1-handson-table.cloudfunctions.net`; //firebase functions API endpoint
+    // url: string = `http://localhost:3000`; //local API endpoint
 
     constructor(private http: HttpClient) {}
 
